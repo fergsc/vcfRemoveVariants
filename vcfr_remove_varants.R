@@ -4,12 +4,13 @@
 ## 1 sample has 10% removed, 2 samples have 10% removed, ..., 99 samples have 99% removed, 100 samples have 99% removed.
 ## Do this numRepeats times.
 ## written to test imputation accuracy.
+## makes use of cvfR library
 #########################
 
 
 library(vcfR)
 
-vcfFileName = 'data/human_reduced.vcf'
+vcfFileName = 'filename.vcf'
 removePC = c(0.90, 0.95, 0.97, 0.99)
 numRepeats = 10
 
@@ -46,7 +47,7 @@ for(repeats in 1:numRepeats)
       setNA = sample(1:variants, numMissing) # get list of random variants to set to NA
       workingGenos[setNA,s] = NA
       vcf@gt = workingGenos
-      fileName = sprintf("data/output/%i.%i_samples_%gpc.vcf.gz", repeats, currSample, missing*100)
+      fileName = sprintf("output/%i.%i_samples_%gpc.vcf.gz", repeats, currSample, missing*100)
       print(fileName)
       write.vcf(vcf, fileName) 
       currSample = currSample+1
